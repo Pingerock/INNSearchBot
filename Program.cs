@@ -74,13 +74,25 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
                 if (ulong.TryParse(inn, out ulong value))
                 {
                     var response = await api.FindParty(inn);
-                    var party = response.suggestions[0].data;
-                    Message sentMessage = await botClient.SendTextMessageAsync
-                    (
+                    if (response.suggestions.Count >= 1)
+                    {
+                        var party = response.suggestions[0].data;
+                        Message sentMessage = await botClient.SendTextMessageAsync
+                        (
+                            chatId: chatId,
+                            text: $"ИНН: {response.suggestions[0].data.inn}\nНазвание компании: {response.suggestions[0].value}\nАдрес компании: {response.suggestions[0].data.address.data.source}",
+                            cancellationToken: cancellationToken
+                        );
+                    }
+                    else
+                    {
+                        Message sentMessage = await botClient.SendTextMessageAsync
+                        (
                         chatId: chatId,
-                        text: $"ИНН: {response.suggestions[0].data.inn}\nНазвание компании: {response.suggestions[0].value}\nАдрес компании: {response.suggestions[0].data.address.data.source}",
+                        text: $"Не получается найти компанию по данному ИНН: {inn}\n\nДанной компании не существует.",
                         cancellationToken: cancellationToken
-                    );
+                        );
+                    }
                 }
                 else
                 {
