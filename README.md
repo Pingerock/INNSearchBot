@@ -3,7 +3,7 @@
 Russian Telegram Bot for searching company's name and address by their INN(Taxpayer Personal Identification Number - "INN" in russian)
 
 # APIs
-This bot uses next APIs:
+This bot uses next APIs: <br/>
 -Telegram for working with bot itself <br/>
 -Dadata to search information about company by it's INN (https://dadata.ru/api/) <br/>
 
